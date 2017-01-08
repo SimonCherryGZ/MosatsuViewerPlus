@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="imageSideA" format="reference"/>
+    <attr name="imageSideB" format="reference"/> 
+    
+    <declare-styleable name="ScratchCard">  
+        <attr name="imageSideA" />  
+        <attr name="imageSideB" />  
+	</declare-styleable>
+	
+</resources>
+

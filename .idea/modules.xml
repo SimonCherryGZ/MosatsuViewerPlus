@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MosatsuViewerPlus.iml" filepath="$PROJECT_DIR$/MosatsuViewerPlus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Scratch/Scratch.iml" filepath="$PROJECT_DIR$/Scratch/Scratch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sweetsheet/sweetsheet.iml" filepath="$PROJECT_DIR$/sweetsheet/sweetsheet.iml" />
+    </modules>
+  </component>
+</project>
