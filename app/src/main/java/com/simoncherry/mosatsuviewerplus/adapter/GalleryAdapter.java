@@ -79,8 +79,12 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.MyViewHo
         return 0;
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         private ImageView itemImage;
+
+        public ImageView getItemImage() {
+            return itemImage;
+        }
 
         public MyViewHolder(View itemView) {
             super(itemView);

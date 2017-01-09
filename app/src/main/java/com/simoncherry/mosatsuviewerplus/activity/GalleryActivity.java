@@ -1,10 +1,8 @@
 package com.simoncherry.mosatsuviewerplus.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.simoncherry.mosatsuviewerplus.R;
 import com.simoncherry.mosatsuviewerplus.adapter.GalleryAdapter;
@@ -98,8 +95,20 @@ public class GalleryActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickIndex = mData.size();
-                startFileManager();
+                clickIndex = mData.size()-1;
+                GalleryBean bean = mData.get(clickIndex);
+                if (bean != null) {
+                    File topImg = new File(bean.getTopPath());
+                    if (!topImg.exists()) {
+                        topImg = FileUtil.getResourceFile(mContext, ADD_ICON);
+                    }
+
+                    View view = rvImg.getChildAt(clickIndex);
+                    if (null != rvImg.getChildViewHolder(view)){
+                        GalleryAdapter.MyViewHolder viewHolder = (GalleryAdapter.MyViewHolder) rvImg.getChildViewHolder(view);
+                        enterImageDetails(topImg, viewHolder.getItemImage());
+                    }
+                }
             }
         });
     }
@@ -111,7 +120,6 @@ public class GalleryActivity extends BaseActivity {
             @Override
             public void onItemClick(int position, ImageView imageView) {
                 clickIndex = position;
-                //startFileManager();
                 GalleryBean bean = mData.get(position);
                 if (bean != null) {
                     File topImg = new File(bean.getTopPath());
@@ -125,30 +133,6 @@ public class GalleryActivity extends BaseActivity {
         rvImg.setLayoutManager(new GridLayoutManager(mContext, 3));
         rvImg.addItemDecoration(new GridSpacingItemDecoration(3, 50, false));
         rvImg.setAdapter(mAdapter);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 1) {
-                Uri uri = data.getData();
-                String path = FileUtil.getFileAbsolutePath(GalleryActivity.this, uri);
-                if (path != null) {
-                    Toast.makeText(mContext, "path："+ path, Toast.LENGTH_SHORT).show();
-                    if (clickIndex >= 0) {
-                        savePath2Realm(clickIndex, path);
-                        clickIndex = -1;
-                        loadGallery();
-                        if (mData.size() > 0) {
-                            rvImg.smoothScrollToPosition(mData.size() - 1);
-                        }
-                    }
-                } else {
-                    Toast.makeText(mContext, "cannot get path", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
     }
 
     private void loadGallery() {
@@ -176,13 +160,6 @@ public class GalleryActivity extends BaseActivity {
 //        if (mData.size() > 0) {
 //            rvImg.smoothScrollToPosition(mData.size() - 1);
 //        }
-    }
-
-    private void startFileManager() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(intent,1);
     }
 
     private void savePath2Realm(int index, String path) {
@@ -228,7 +205,6 @@ public class GalleryActivity extends BaseActivity {
         screenShot.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte [] bitmapByte = stream.toByteArray();
         startIntent.putExtra("bitmap", bitmapByte);
-
         startIntent.putExtra("index", clickIndex);
 
         startActivity(startIntent);

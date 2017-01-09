@@ -42,9 +42,6 @@ public class HorizontalPagerFragment extends Fragment {
         adapter.setOnItemClickListener(new HorizontalPagerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-//                Toast.makeText(getContext(), "click: " + String.valueOf(position), Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getContext(), MosatsuActivity.class);
-//                getActivity().startActivity(intent);
                 Intent intent = null;
                 switch (position) {
                     case 0:

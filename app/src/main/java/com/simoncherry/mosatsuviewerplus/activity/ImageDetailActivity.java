@@ -81,6 +81,7 @@ public class ImageDetailActivity extends BaseActivity {
 
     private int clickIndex = -1;
     private boolean isTop = true;
+    private boolean isShowAnim = true;
 
 
     @Override
@@ -111,6 +112,7 @@ public class ImageDetailActivity extends BaseActivity {
             @Override
             public void onAnimationEnd() {
                 cvTop.setVisibility(View.VISIBLE);
+                //StatusBarUtil.setStatusBarColor(ImageDetailActivity.this, R.color.colorPrimary);
                 loadImage(clickIndex);
             }
         });
@@ -119,7 +121,6 @@ public class ImageDetailActivity extends BaseActivity {
             @Override
             public void onAnimationStart() {
                 cvTop.setVisibility(View.INVISIBLE);
-                StatusBarUtil.setStatusBarColor(ImageDetailActivity.this, R.color.colorPrimary);
             }
         });
         initializeEnlargedImageAndRunAnimation(savedInstanceState, imageFile);
@@ -127,6 +128,7 @@ public class ImageDetailActivity extends BaseActivity {
         byte [] bis = getIntent().getByteArrayExtra("bitmap");
         Bitmap bitmap = BitmapFactory.decodeByteArray(bis, 0, bis.length);
         layoutBg.setBackground(new BitmapDrawable(bitmap));
+        StatusBarUtil.setStatusBarColor(ImageDetailActivity.this, R.color.colorPrimary);
 
         initData();
     }
@@ -143,7 +145,6 @@ public class ImageDetailActivity extends BaseActivity {
     private void initData() {
         Intent intent = getIntent();
         clickIndex = intent.getIntExtra("index", -1);
-        //loadImage(clickIndex);
     }
 
     private void loadImage(int index) {
@@ -183,6 +184,7 @@ public class ImageDetailActivity extends BaseActivity {
             public void run() {
                 ivTop.setVisibility(View.VISIBLE);
                 mTransitionImage.setVisibility(View.INVISIBLE);
+                isShowAnim = false;
             }
         }, 500);
     }
@@ -319,26 +321,6 @@ public class ImageDetailActivity extends BaseActivity {
         return startIntent;
     }
 
-    @Override
-    public void onBackPressed() {
-//        We don't call super to leave this activity on the screen when back is pressed
-//        super.onBackPressed();
-        Log.v(TAG, "onBackPressed");
-
-        mEnterScreenAnimations.cancelRunningAnimations();
-
-        Bundle initialBundle = getIntent().getExtras();
-        int toTop = initialBundle.getInt(KEY_THUMBNAIL_INIT_TOP_POSITION);
-        int toLeft = initialBundle.getInt(KEY_THUMBNAIL_INIT_LEFT_POSITION);
-        int toWidth = initialBundle.getInt(KEY_THUMBNAIL_INIT_WIDTH);
-        int toHeight = initialBundle.getInt(KEY_THUMBNAIL_INIT_HEIGHT);
-
-        mExitScreenAnimations.playExitAnimations(
-                toTop, toLeft, toWidth, toHeight,
-                mEnterScreenAnimations.getInitialThumbnailMatrixValues(),
-                mEnterScreenAnimations.getTargetImageMatrixValues());
-    }
-
     private void startFileManager() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
@@ -403,7 +385,6 @@ public class ImageDetailActivity extends BaseActivity {
                                     @Override
                                     public void onSuccess() {
                                         if (isTop) {
-                                            //imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                                             mEnterScreenAnimations.setTargetImageMatrixValues(imageView);
                                         }
                                     }
@@ -451,6 +432,27 @@ public class ImageDetailActivity extends BaseActivity {
                     Toast.makeText(mContext, "cannot get path", Toast.LENGTH_SHORT).show();
                 }
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        We don't call super to leave this activity on the screen when back is pressed
+//        super.onBackPressed();
+        Log.v(TAG, "onBackPressed");
+        if (!isShowAnim) {
+            mEnterScreenAnimations.cancelRunningAnimations();
+
+            Bundle initialBundle = getIntent().getExtras();
+            int toTop = initialBundle.getInt(KEY_THUMBNAIL_INIT_TOP_POSITION);
+            int toLeft = initialBundle.getInt(KEY_THUMBNAIL_INIT_LEFT_POSITION);
+            int toWidth = initialBundle.getInt(KEY_THUMBNAIL_INIT_WIDTH);
+            int toHeight = initialBundle.getInt(KEY_THUMBNAIL_INIT_HEIGHT);
+
+            mExitScreenAnimations.playExitAnimations(
+                    toTop, toLeft, toWidth, toHeight,
+                    mEnterScreenAnimations.getInitialThumbnailMatrixValues(),
+                    mEnterScreenAnimations.getTargetImageMatrixValues());
         }
     }
 

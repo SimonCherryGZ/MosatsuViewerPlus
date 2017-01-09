@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:alpha="0"
     tools:alpha="1"
-    android:background="@android:color/transparent"
+    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     tools:context="com.simoncherry.mosatsuviewerplus.activity.ImageDetailActivity">
 
