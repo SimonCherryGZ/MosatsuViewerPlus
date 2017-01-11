@@ -145,7 +145,7 @@
                         android:src="@drawable/ic_refresh_white_48dp"/>
 
                     <ImageView
-                        android:id="@+id/iv_option"
+                        android:id="@+id/iv_effect"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

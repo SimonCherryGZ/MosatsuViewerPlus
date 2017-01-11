@@ -64,6 +64,8 @@ public class MosatsuActivity extends AppCompatActivity {
     ImageView ivGallery;
     @BindView(R.id.iv_reset)
     ImageView ivReset;
+    @BindView(R.id.iv_effect)
+    ImageView ivEffect;
     @BindView(R.id.seek_bar)
     SeekBar seekBar;
 
@@ -229,7 +231,7 @@ public class MosatsuActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.fab, R.id.layout_tool, R.id.layout_root, R.id.iv_gallery, R.id.iv_reset})
+    @OnClick({R.id.fab, R.id.layout_tool, R.id.layout_root, R.id.iv_gallery, R.id.iv_reset, R.id.iv_effect})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
@@ -262,6 +264,14 @@ public class MosatsuActivity extends AppCompatActivity {
                 break;
             case R.id.iv_reset:
                 scratchView.reset();
+                break;
+            case R.id.iv_effect:
+                scratchView.toggleEdgeEffect();
+                if (scratchView.isEdgeEffectEnable()) {
+                    ivEffect.setImageResource(R.drawable.ic_radio_button_on_white_48dp);
+                } else {
+                    ivEffect.setImageResource(R.drawable.ic_radio_button_off_white_48dp);
+                }
                 break;
         }
     }

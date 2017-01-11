@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.DiscretePathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -101,7 +102,10 @@ public class ScratchView extends View {
      */
     private int mPixels[];
 
+    private boolean isEdgeEffectEnable = false;
+
     private EraseStatusListener mEraseStatusListener;
+
 
     public ScratchView(Context context) {
         super(context);
@@ -159,6 +163,23 @@ public class ScratchView extends View {
         ViewConfiguration viewConfiguration = ViewConfiguration.get(getContext());
         mTouchSlop = viewConfiguration.getScaledTouchSlop();
 
+    }
+
+    public void enableEdgeEffect(boolean isEnable) {
+        if (isEnable) {
+            mErasePaint.setPathEffect(new DiscretePathEffect(5.0F, 5.0F)); //离散路径效果
+        } else {
+            mErasePaint.setPathEffect(null);
+        }
+    }
+
+    public void toggleEdgeEffect() {
+        isEdgeEffectEnable = !isEdgeEffectEnable;
+        enableEdgeEffect(isEdgeEffectEnable);
+    }
+
+    public boolean isEdgeEffectEnable() {
+        return isEdgeEffectEnable;
     }
 
     /**
