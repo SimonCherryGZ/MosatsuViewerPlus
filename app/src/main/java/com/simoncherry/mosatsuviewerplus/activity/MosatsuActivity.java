@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 
 import com.clock.scratch.ScratchView;
 import com.konifar.fab_transformation.FabTransformation;
@@ -63,6 +64,8 @@ public class MosatsuActivity extends AppCompatActivity {
     ImageView ivGallery;
     @BindView(R.id.iv_reset)
     ImageView ivReset;
+    @BindView(R.id.seek_bar)
+    SeekBar seekBar;
 
     private SweetSheet mSweetSheet;
     private RecyclerView rvImg;
@@ -100,6 +103,21 @@ public class MosatsuActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                scratchView.setEraserSize(60.0f * (progress+1)/5);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
         scratchView.setMaskImage(R.drawable.sample1_a);
         ivBottom.setImageResource(R.drawable.sample1_b);
     }
