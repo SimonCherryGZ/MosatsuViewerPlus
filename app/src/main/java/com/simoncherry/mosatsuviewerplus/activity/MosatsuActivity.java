@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.clock.scratch.ScratchView;
+import com.konifar.fab_transformation.FabTransformation;
 import com.mingle.sweetpick.BlurEffect;
 import com.mingle.sweetpick.CustomDelegate;
 import com.mingle.sweetpick.SweetSheet;
@@ -36,6 +37,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -52,10 +54,15 @@ public class MosatsuActivity extends AppCompatActivity {
     ScratchView scratchView;
     @BindView(R.id.iv_bottom)
     ImageView ivBottom;
-    @BindView(R.id.btn_gallery)
-    Button btnGallery;
-    @BindView(R.id.btn_reset)
-    Button btnReset;
+
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+    @BindView(R.id.layout_tool)
+    RelativeLayout layoutTool;
+    @BindView(R.id.iv_gallery)
+    ImageView ivGallery;
+    @BindView(R.id.iv_reset)
+    ImageView ivReset;
 
     private SweetSheet mSweetSheet;
     private RecyclerView rvImg;
@@ -65,6 +72,8 @@ public class MosatsuActivity extends AppCompatActivity {
     private Context mContext;
     private Unbinder unbinder;
     private Realm realm;
+
+    private boolean isTransforming;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,22 +102,6 @@ public class MosatsuActivity extends AppCompatActivity {
     private void initView() {
         scratchView.setMaskImage(R.drawable.sample1_a);
         ivBottom.setImageResource(R.drawable.sample1_b);
-
-        btnGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSweetSheet != null) {
-                    mSweetSheet.toggle();
-                }
-            }
-        });
-
-        btnReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                scratchView.reset();
-            }
-        });
     }
 
     private void setupSweetSheet() {
@@ -143,7 +136,6 @@ public class MosatsuActivity extends AppCompatActivity {
             public void onShow() {
                 //btnGallery.setVisibility(View.INVISIBLE);
             }
-
             @Override
             public void onHide() {
                 //btnGallery.setVisibility(View.VISIBLE);
@@ -211,7 +203,48 @@ public class MosatsuActivity extends AppCompatActivity {
         if (mSweetSheet.isShow()) {
             mSweetSheet.toggle();
         } else {
+            if (fab.getVisibility() != View.VISIBLE) {
+                FabTransformation.with(fab).transformFrom(layoutTool);
+                return;
+            }
             super.onBackPressed();
+        }
+    }
+
+    @OnClick({R.id.fab, R.id.layout_tool, R.id.layout_root, R.id.iv_gallery, R.id.iv_reset})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.fab:
+                if (fab.getVisibility() == View.VISIBLE) {
+                    FabTransformation.with(fab).transformTo(layoutTool);
+                }
+                break;
+            case R.id.layout_tool:
+                break;
+            case R.id.layout_root:
+                if (fab.getVisibility() != View.VISIBLE && !isTransforming) {
+                    FabTransformation.with(fab)
+                            .setListener(new FabTransformation.OnTransformListener() {
+                                @Override
+                                public void onStartTransform() {
+                                    isTransforming = true;
+                                }
+                                @Override
+                                public void onEndTransform() {
+                                    isTransforming = false;
+                                }
+                            })
+                            .transformFrom(layoutTool);
+                }
+                break;
+            case R.id.iv_gallery:
+                if (mSweetSheet != null) {
+                    mSweetSheet.toggle();
+                }
+                break;
+            case R.id.iv_reset:
+                scratchView.reset();
+                break;
         }
     }
 }

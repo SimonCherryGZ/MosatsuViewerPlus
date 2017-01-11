@@ -45,7 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/btn_gallery"
@@ -61,5 +62,101 @@
                 android:layout_weight="1"
                 android:text="RESET"/>
         </LinearLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_add_white_48dp"
+            app:backgroundTint="@color/colorAccent"
+            app:borderWidth="0dp" />
+
+        <io.codetail.widget.RevealFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <RelativeLayout
+                android:id="@+id/layout_tool"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:visibility="invisible"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/layout_row_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingLeft="40dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/white"
+                        android:text="SIZE:"/>
+
+                    <android.support.v7.widget.AppCompatSeekBar
+                        android:id="@+id/seek_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="40dp"
+                        android:maxHeight="2dp"
+                        android:minHeight="2dp"
+                        android:progressDrawable="@drawable/seek_progress"
+                        android:thumb="@drawable/seek_thumb"
+                        android:progress="5"
+                        android:max="10"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/layout_row_1"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_gallery"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_feedback"
+                        android:clickable="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_filter_white_48dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_reset"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_feedback"
+                        android:clickable="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_refresh_white_48dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_option"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_feedback"
+                        android:clickable="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_radio_button_off_white_48dp"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </io.codetail.widget.RevealFrameLayout>
+
     </RelativeLayout>
+
 </LinearLayout>

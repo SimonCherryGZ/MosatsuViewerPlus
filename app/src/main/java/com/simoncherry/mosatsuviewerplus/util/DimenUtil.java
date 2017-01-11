@@ -1,6 +1,7 @@
 package com.simoncherry.mosatsuviewerplus.util;
 
 import android.content.Context;
+import android.view.View;
 
 import com.orhanobut.logger.Logger;
 import com.simoncherry.mosatsuviewerplus.R;
@@ -32,5 +33,11 @@ public class DimenUtil {
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    public static boolean isContain(View view, float x, float y) {
+        int[] point = new int[2];
+        view.getLocationOnScreen(point);
+        return x >= point[0] && x <= (point[0] + view.getWidth()) && y >= point[1] && y <= (point[1] + view.getHeight());
     }
 }

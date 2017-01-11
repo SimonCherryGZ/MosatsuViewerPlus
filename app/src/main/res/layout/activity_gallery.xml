@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
         android:clickable="true"
-        android:src="@android:drawable/ic_menu_add"
+        android:src="@drawable/ic_add_white_48dp"
         app:layout_anchor="@+id/toolbar"
         app:layout_anchorGravity="bottom|right|end"/>
 </android.support.design.widget.CoordinatorLayout>
