@@ -7,7 +7,7 @@ group = "com.clock.scratch" // Maven Group ID for the artifact，一般填你唯
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '25.0.0'
     resourcePrefix "ScratchView_" //暂不清楚作用，随便填
 
     defaultConfig {

@@ -33,7 +33,6 @@ dependencies {
     compile 'com.android.support:design:23.4.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
-    compile 'com.github.devlight:infinitecycleviewpager:1.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.baoyz.treasure:treasure:0.7.3'
     annotationProcessor 'com.baoyz.treasure:treasure-compiler:0.7.3'
